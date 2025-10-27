@@ -33,9 +33,9 @@ usePackage("broom")        # contains the tidy function which now replaces the f
 usePackage("viridis")      # For nicer ggplot colours
 usePackage("gridExtra")    # Multiple plot
 usePackage("spatialreg")
-usePackage("maptools")
+#usePackage("maptools")
 usePackage("plyr")
-usePackage("dpylr")
+usePackage("dplyr")
 usePackage("gstat")
 usePackage("car")
 #usePackage("RStoolbox")

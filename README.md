@@ -8,7 +8,7 @@ On Macs - you may need to run this before using Rstudio:
 
 /usr/sbin/softwareupdate --install-rosetta
 
-clone this Respository using Git (GIT Desktop works nicely)
+clone this Repository using Git (GIT Desktop works nicely)
 
 git clone https://github.com/Baylor-HACLab-Classwork/BAYLOR_5188_FALL2025.git
 

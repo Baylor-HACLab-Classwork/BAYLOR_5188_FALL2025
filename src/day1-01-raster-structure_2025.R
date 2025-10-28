@@ -1,3 +1,7 @@
+#Title: day1-01-raster-structure_2025.R
+#Baylor ENV5188 Fall 2025
+#Instructor: Erich Seamon
+
 # --- packages
 suppressPackageStartupMessages({
   library(terra)     # replaces raster + rgdal I/O
@@ -7,6 +11,16 @@ suppressPackageStartupMessages({
   library(scales)
 })
 
+#In this episode, we will introduce the fundamental principles, 
+#packages and metadata/raster attributes that are needed to work 
+#with raster data in R. We will discuss some of the core metadata 
+#elements that we need to understand to work with rasters in R, 
+#including CRS and resolution. We will also explore missing and 
+#bad data values as stored in a raster and how R handles these elements.
+
+#We will continue to work with the `dplyr` and `ggplot2` packages 
+#that were introduced previously. We will use the 'terra' package
+#for rasters. Make sure that you have these packages loaded.
 ## Introduce the data / View Raster File Attributes
 
 # raster::GDALinfo(...)  -->  terra metadata helpers (no full load)
@@ -18,7 +32,26 @@ terra::describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"
 HARV_dsmCrop_info <- capture.output(terra::describe("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif"))
 HARV_dsmCrop_info
 
+
+#Each line of text that was printed to the console is now stored as 
+#an element of the character vector `HARV_dsmCrop_info`. We will be 
+#exploring this data throughout this episode. By the end of this 
+#episode, you will be able to explain and understand the output above.
+
 ## Open a Raster in R
+
+#Now that we've previewed the metadata for our GeoTIFF, let's import 
+#this raster dataset into R and explore its metadata more closely. We 
+#can use the `raster()` function to open a raster in R.
+
+## Data Tip - Object names
+
+#To improve code readability, file and object names should be used 
+#that make it clear what is in the file. The data for this episode 
+#were collected from Harvard Forest so we'll use a naming convention 
+#of `datatype_HARV`.
+
+#First we will load our raster file into R and view the data structure.
 
 # raster(...)  -->  rast(...)
 DSM_HARV <- rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
@@ -35,6 +68,14 @@ summary(DSM_HARV)
 DSM_HARV_df <- as.data.frame(DSM_HARV, xy = TRUE)
 str(DSM_HARV_df)
 
+#We can use `ggplot()` to plot this data. We will set the color scale 
+#to `scale_fill_viridis_c` which is a color-blindness friendly color scale.
+#We will also use the `coord_quickmap()` function to use an approximate 
+#Mercator projection for our plots. This approximation is suitable for 
+#small areas that are not too close to the poles. Other coordinate 
+#systems are available in ggplot2 if needed, you can learn about them 
+#at their help page `?coord_map`.
+
 ggplot() +
   geom_raster(data = DSM_HARV_df , aes(x = x, y = y, fill = HARV_dsmCrop)) +
   scale_fill_viridis_c() +
@@ -44,6 +85,19 @@ ggplot() +
 plot(DSM_HARV)
 
 ### View CRS (proj string and units)
+
+#This map shows the elevation of our study site in Harvard Forest. 
+#From the legend, we can see that the maximum elevation is ~400, but 
+#we can't tell whether this is 400 feet or 400 meters because the 
+#legend doesn't show us the units. We can look at the metadata of 
+#our object to see what the units are. Much of the metadata that 
+#we're interested in is part of the CRS. We introduced the concept of a CRS earlier.
+
+#Now we will see how features of the CRS appear in our data file 
+#and what meanings they have.
+
+### View Raster Coordinate Reference System (CRS) in R
+#We can view the CRS string associated with our R object using the`crs()` function.
 
 # crs() returns WKT by default; use proj=TRUE for PROJ string
 crs(DSM_HARV)                # WKT2
@@ -62,14 +116,44 @@ global(DSM_HARV, c("min","max"), na.rm = TRUE)
 
 ## Raster Bands
 # raster::nlayers --> terra::nlyr
+## Raster Bands
+
+#The Digital Surface Model object (`DSM_HARV`) that we've been working 
+#with is a single band raster. This means that there is only one dataset 
+#stored in the raster: surface elevation in meters for one time period.
+
+#A raster dataset can contain one or more bands. We can use the `raster()` 
+#function to import one single band from a single or multi-band raster. We 
+#can view the number of bands in a raster using the `nlayers()` function.
+
 nlyr(DSM_HARV)
 
-## Dealing with Missing Data (RGB example)
+#However, raster data can also be multi-band, meaning that one raster file 
+#contains data for more than one variable or time period for each cell. By 
+#default the `raster()` function only imports the first band in a raster 
+#regardless of whether it has one or more bands. Jump to a later episode 
+#in this series for information on working with multi-band rasters:
+
+## Dealing with Missing Data
+
+#Raster data often has a `NoDataValue` associated with it. This is a 
+#value assigned to pixels where data is missing or no data were collected.
+
+#By default the shape of a raster is always rectangular. So if we have  
+#a dataset that has a shape that isn't rectangular, some pixels at the 
+#edge of the raster will have `NoDataValue`s. This often happens when 
+#the data were collected by an airplane which only flew over some part 
+#of a defined region.
+
+#In the image below, the pixels that are black have `NoDataValue`s. 
+#The camera did not collect data in these areas.
 
 # raster::stack(...) --> rast(...) (multi-band reads automatically)
 RGB_stack <- rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/HARV_RGB_Ortho.tif")
 
 # aggregate(..., fact=8, fun=median)
+# aggregate cells from 0.25m to 2m for plotting to speed up the lesson and 
+# save memory
 RGB_2m <- aggregate(RGB_stack, fact = 8, fun = median, na.rm = TRUE)
 
 # Optionally coerce to integer-like values (for consistent appearance)

@@ -1,5 +1,6 @@
-# Title: day1-04-raster-multi-band-in-r_terra.R
-# Terra rewrite of the raster/rgdal version
+# Title: day1-04-raster-multi-band-in-r_2025.R
+#Baylor ENV5188 Fall 2025
+#Instructor: Erich Seamon
 
 library(terra)    # replaces raster + rgdal
 library(sf)       # optional, for gdal_utils-style metadata if desired
@@ -13,6 +14,16 @@ library(gridExtra)
 # In terra, use rast() to read multi-band rasters. You can read a single
 # band with lyrs=, or all bands by default.
 
+#We introduced multi-band raster data in an earlier lesson.This episode 
+#explores how to import and plot a multi-band raster in R.
+
+## Getting Started with Multi-Band Data in R
+
+#In this episode, the multi-band data that we are working with is imagery
+#collected using the NEON high resolution camera over the NEON Harvard Forest 
+#field site Each RGB image is a 3-band raster. The same steps would apply to
+#working with a multi-spectral image with 4 or more bands - like Landsat imagery.
+
 # Read ONLY band 1 (red)
 RGB_band1_HARV <- rast(
   "data/NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/HARV_RGB_Ortho.tif",
@@ -21,6 +32,8 @@ RGB_band1_HARV <- rast(
 
 # Convert to data frame for ggplot
 RGB_band1_HARV_df <- as.data.frame(RGB_band1_HARV, xy = TRUE)
+
+
 
 ggplot() +
   geom_raster(data = RGB_band1_HARV_df,
@@ -34,7 +47,7 @@ nlyr(RGB_band1_HARV)          # number of layers in this object (should be 1)
 
 # If you want to know total bands in the file, read all layers:
 RGB_all_tmp <- rast("data/NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/HARV_RGB_Ortho.tif")
-nlyr(RGB_all_tmp)             # 3
+nlyr(RGB_all_tmp)             
 
 # -------------------------------------------------------------------
 # Import a specific band: green (band 2)

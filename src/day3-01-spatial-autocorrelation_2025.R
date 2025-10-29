@@ -1,8 +1,6 @@
-#Title: day3-01-spatial-autocorrelation.R
-#BCB503 Geospatial Workshop, April 20th, 22nd, 27th, and 29th, 2021
-#University of Idaho
-#Data Carpentry Advanced Geospatial Analysis
-#Instructors: Erich Seamon, University of Idaho - Li Huang, University of Idaho
+#Title: day3-01-spatial-autocorrelation_2025.R
+#Baylor ENV5188 Fall 2025
+#Instructor: Erich Seamon
 
 #dyn.load("/opt/modules/climatology/gdal/3.0.2/lib/libgdal.so")
 #library(sf, lib="/mnt/ceph/erichs/R/x86_64-pc-linux-gnu-library/4.0/")

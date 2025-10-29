@@ -1,9 +1,6 @@
-#Title: day2-03-vector-plot-shapefiles-custom-legend.R
-#BCB503 Geospatial Workshop, April 20th, 22nd, 27th, and 29th, 2021
-#University of Idaho
-#Data Carpentry Advanced Geospatial Analysis
-#Instructors: Erich Seamon, University of Idaho - Li Huang, University of Idaho
-
+#Title: day2-03-vector-plot-shapefiles-custom-legend_2025.R
+#Baylor ENV5188 Fall 2025
+#Instructor: Erich Seamon
 library(terra)
 library(ggplot2)
 library(dplyr)
@@ -21,7 +18,7 @@ road_colors <- c("blue", "green", "navy", "purple")
 
 ## Load the Data
 
-#To work with vector data in R, we can use the `sf` library. The `raster`
+#To work with vector data in R, we can use the `sf` library. The `terra`
 #package also allows us to explore metadata using similar commands for both
 #raster and vector files. Make sure that you have these packages loaded.
 

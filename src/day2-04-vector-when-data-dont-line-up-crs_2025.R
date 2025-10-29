@@ -1,9 +1,6 @@
-#Title: day2-04-vector-when-data-dont-line-up-crs.R
-#BCB503 Geospatial Workshop, April 20th, 22nd, 27th, and 29th, 2021
-#University of Idaho
-#Data Carpentry Advanced Geospatial Analysis
-#Instructors: Erich Seamon, University of Idaho - Li Huang, University of Idaho
-
+#Title: day2-04-vector-when-data-dont-line-up-crs_2025.R
+#Baylor ENV5188 Fall 2025
+#Instructor: Erich Seamon
 
 library(terra)
 library(sf)

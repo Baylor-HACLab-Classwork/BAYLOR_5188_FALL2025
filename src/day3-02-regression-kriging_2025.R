@@ -1,9 +1,6 @@
-#Title: day3-02-regression-kriging.R
-#BCB503 Geospatial Workshop, April 20th, 22nd, 27th, and 29th, 2021
-#University of Idaho
-#Data Carpentry Advanced Geospatial Analysis
-#Instructors: Erich Seamon, University of Idaho - Li Huang, University of Idaho
-
+#Title: day3-02-regression-kriging_2025.R
+#Baylor ENV5188 Fall 2025
+#Instructor: Erich Seamon
 
 #Geospatial Interpolation: Kriging
 
@@ -55,7 +52,7 @@
         
         #### Power transformation
         # uses the maximum likelihood-like approach of Box and Cox (1964) to 
-        # select a transformatiion of a univariate or multivariate response 
+        # select a transformation of a univariate or multivariate response 
         # for normality, linearity and/or constant variance. 
         
         powerTransform(train$SOC)
@@ -156,7 +153,7 @@
         
         
         
-        #### Plot varigram and fitted model:
+        #### Plot variogram and fitted model, from gstat
         plot(v.glm, pl=F, 
              model=m.f.glm,
              col="black", 
